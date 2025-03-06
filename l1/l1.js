@@ -127,16 +127,129 @@ task1(() => {
 console.log(promise)
 */
 
-const promise = new Promise((resolve, reject) => {
-  const randomnumber = Math.floor(Math.random() * 10);
-  setTimeout(() => {
-    if (randomnumber < 4) {
-      resolve("All went well");
-    } else {
-      reject("Something went wrong");
-    }
-  }, 2500);
-});
-console.log(promise);
-//the state of this promise will be pending for 2500 millisecond 
+// const promiseone = new Promise((resolve, reject) => {
+//   resolve("well done,promise 1 is resolved");
+// });
+// const promisetwo = new Promise((resolve, reject) => {
+//   resolve("well done,promise 2 is resolved");
+// });
+// const promisethree = new Promise((resolve, reject) => {
+//   reject("oops,promise 3 is not resolved");
+// });
+//the state of this promise will be pending for 2500 millisecond
 // until and unless the promise is resolved or rejected based on the random number
+
+//CONSUMING AN ALREADY CREATED PROMISE
+
+//Using then and catch methods to consume a promise value takes resolve and error takes reject
+// promiseone
+//   .then((value) => {
+//     console.log(value);
+//     return promisetwo;
+//   })
+//   .then((value) => {
+//     console.log(value);
+//     return promisethree;
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+
+//EXAMPLES OF NESTED PROMISES
+// promiseone
+//   .then((value) => {
+//     console.log(value);
+//     promisetwo.then((data) => {
+//       console.log(data);
+//       promisethree
+//         .then((variable) => {
+//           console.log(variable);
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//         });
+//     });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+// const promiseone = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve("Promise 1 is resolved");
+//   }, 2000);
+// });
+// const promisetwo = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     reject("Promise 2 is rejected");
+//   }, 1300);
+// });
+// Promise.all([promiseone, promisetwo])
+//   .then((data) => console.log(data[0], data[1]))
+//   .catch((error) => console.log(error)); //this will fire up only the rejected promises
+
+//ASYNC AND AWAIT
+const preheatoven = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const preheatoven = false;
+      if (preheatoven) {
+        resolve("Pre Heated Oven");
+      } else {
+        reject("Oven Not Preheated");
+      }
+    }, 1000);
+  });
+};
+const addsugar = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const addsugar = true;
+      if (addsugar) {
+        resolve("Sugar is added");
+      } else {
+        reject("Sugar is not added");
+      }
+    }, 2000);
+  });
+};
+const cookfood = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const cookfood = true;
+      if (cookfood) {
+        resolve("Food is cooked");
+      } else {
+        reject("Food is not cooked");
+      }
+    }, 3000);
+  });
+};
+const servefood = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const servefood = true;
+      if (servefood) {
+        resolve("Food is served");
+      } else {
+        reject("Food is not served");
+      }
+    }, 5000);
+  });
+};
+
+const cookfoodandserve = async () => {
+  try {
+    const taskone = await preheatoven();
+    console.log(taskone);
+    const tasktwo = await addsugar();
+    console.log(tasktwo);
+    const taskthree = await cookfood();
+    console.log(taskthree);
+    const taskfour = await servefood();
+    console.log(taskfour);
+    console.log("Enjoy!!!!! Your Food");
+  } catch (error) {
+    console.log(error);
+  }
+};
+cookfoodandserve();
